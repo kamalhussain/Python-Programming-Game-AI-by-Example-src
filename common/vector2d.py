@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Any
 import math
 
 class Vector2D:
@@ -78,4 +79,3 @@ class Vector2D:
 
     def get_reverse(self) -> Vector2D:
         raise NotImplementedError
-
