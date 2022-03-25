@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any
+from typing import Any, Literal
+
 import math
 
 class Vector2D:
@@ -24,28 +25,36 @@ class Vector2D:
         return isinstance(o, Vector2D) and self.x == o.x and self.y == o.y
 
     def __add__(self, v2: Vector2D) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(self.x + v2.x, self.y + v2.y)
 
     def __iadd__(self, v2: Vector2D) -> Vector2D:
-        raise NotImplementedError
+        self.x += v2.x
+        self.y += v2.y
+        return self
 
     def __sub__(self, v2: Vector2D) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(self.x - v2.x, self.y - v2.y)
 
     def __isub__(self, v2: Vector2D) -> Vector2D:
-        raise NotImplementedError
+        self.x -= v2.x
+        self.y -= v2.y
+        return self
 
     def __mul__(self, other: float) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(self.x * other, self.y * other)
 
     def __imul__(self, other: float) -> Vector2D:
-        raise NotImplementedError
+        self.x *= other
+        self.y *= other
+        return self
 
     def __truediv__(self, other: float) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(self.x / other, self.y / other)
 
     def __itruediv__(self, other: float) -> Vector2D:
-        raise NotImplementedError
+        self.x /= other
+        self.y /= other
+        return self
 
     def length(self) -> float:
         return math.sqrt(self.length_sq())
@@ -53,29 +62,38 @@ class Vector2D:
     def length_sq(self) -> float:
         return self.x ** 2 + self.y ** 2
 
-    def normalize(self) -> Vector2D:
-        raise NotImplementedError
+    def normalize(self) -> None:
+        length = self.length()
+        self.x /= length
+        self.y /= length
 
-    def dot(self, v2: Vector2D) -> Vector2D:
-        raise NotImplementedError
+    def dot(self, v2: Vector2D) -> float:
+        return self.x * v2.x + self.y * v2.y
     
-    def sign(self, v2: Vector2D) -> Vector2D:
+    def sign(self, v2: Vector2D) -> Literal[-1,1]:
         """ Returns positive if v2 is clockwise of this vector,
         and negative if counterclockwise
         """
-        raise NotImplementedError
+        if self.y * v2.x > self.x * v2.y:
+            return -1
+        return 1
 
     def perp(self) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(-self.y, self.x)
 
     def truncate(self, maximum:float) -> None:
-        raise NotImplementedError
+        if self.length() > maximum:
+            self.normalize()
+            self.x *= maximum
+            self.y *= maximum
 
     def distance(self, v2: Vector2D) -> float:
-        raise NotImplementedError
+        return math.sqrt(self.distance_sq(v2))
 
     def distance_sq(self, v2: Vector2D) -> float:
-        raise NotImplementedError
+        y_separation = v2.y - self.y
+        x_separation = v2.x - self.x
+        return y_separation ** 2 + x_separation ** 2
 
     def get_reverse(self) -> Vector2D:
-        raise NotImplementedError
+        return Vector2D(-self.x, -self.y)
