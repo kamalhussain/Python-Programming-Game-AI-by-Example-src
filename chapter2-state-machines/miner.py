@@ -1,7 +1,11 @@
+from __future__ import annotations
+from abc import ABC, abstractmethod
 from base_game_entity import BaseGameEntity
 
-class State:
-    pass
+class State(ABC):
+    @abstractmethod
+    def execute(self, miner: Miner):
+        pass
 
 class Miner(BaseGameEntity):
     def __init__(self, id):
@@ -13,10 +17,28 @@ class Miner(BaseGameEntity):
         self.thirst = 0
         self.fatigue = 0
 
-    def update():
+    def update(self):
         self.thirst += 1
         if self.state:
             self.state.exectute(self)
 
     def change_state(state):
         self.state = state
+
+class EnterMineAndDigForNugget(State):
+    def execute(self, miner: Miner):
+        pass
+
+class VisitBankAndDepositGold(State):
+    def execute(self, miner: Miner):
+        pass
+
+class GoHomeAndSleepTilRested(State):
+    def execute(self, miner: Miner):
+        pass
+
+class QuenchThirst(State):
+    def execute(self, miner: Miner):
+        pass
+
+    
