@@ -1,7 +1,10 @@
-class BaseGameEntity:
+from __future__ import annotations
+from abc import ABC, abstractmethod
+
+class BaseGameEntity(ABC):
     id = 1
-    def __init__(self, id=None):
-        if id != None:
+    def __init__(self, id: int|None=None):
+        if isinstance(id, int):
             assert id >= BaseGameEntity.id, f"id: {id} less than BaseGameEntity.id: {BaseGameEntity.id}"
             self.id = id
         else:
@@ -11,8 +14,8 @@ class BaseGameEntity:
     def __repr__(self):
         return f"{type(self).__name__}({self.id}) {BaseGameEntity.id = }"
 
-    
-    def update():
+    @abstractmethod
+    def update(self):
         pass
 
     
