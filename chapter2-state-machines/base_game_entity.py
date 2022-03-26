@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class BaseGameEntity(ABC):
     id = 1
-    def __init__(self, id: int|None=None):
+    def __init__(self, id: int|None=None) -> None:
         if isinstance(id, int):
             assert id >= BaseGameEntity.id, f"id: {id} less than BaseGameEntity.id: {BaseGameEntity.id}"
             self.id = id
@@ -11,11 +11,11 @@ class BaseGameEntity(ABC):
             self.id = BaseGameEntity.id 
         BaseGameEntity.id = self.id + 1
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{type(self).__name__}({self.id}) {BaseGameEntity.id = }"
 
     @abstractmethod
-    def update(self):
+    def update(self) -> None:
         pass
 
     
