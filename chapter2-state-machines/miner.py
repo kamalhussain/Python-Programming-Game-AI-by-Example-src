@@ -2,17 +2,23 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from base_game_entity import BaseGameEntity
 from locations import LocationType
-from miner_owned_states import EnterMineAndDigForNugget, VisitBankAndDepositGold, GoHomeAndSleepTilRested, QuenchThirst
 
 class State(ABC):
+    def __new__(cls) -> State:
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(State, cls).__new__(cls)
+        return cls.instance
+
     @abstractmethod
     def execute(self, miner: Miner) -> None:
         pass
 
 class Miner(BaseGameEntity):
     def __init__(self, id: int) -> None:
+        import miner_owned_states
+
         super().__init__(id)
-        self.state: State = EnterMineAndDigForNugget()
+        self.state: State = miner_owned_states.EnterMineAndDigForNugget()
         self.location_type = LocationType.shack
         self.gold_carried = 0
         self.money_in_bank = 0
