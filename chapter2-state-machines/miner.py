@@ -49,7 +49,7 @@ class Miner(BaseGameEntity):
     def say(self, speech: str) -> None:
         print(f"{get_name_of_entity(EntityName(self.id))}: {speech}")
 
-def main():
+def main() -> None:
     m = Miner(1)
     for _ in range(25):
         m.update()
