@@ -9,6 +9,7 @@ class EnterMineAndDigForNugget(State):
     
     def execute(self, miner: Miner) -> None:
         miner.gold_carried += 1
+        miner.fatigure += 1
         miner.say("Pickin' up a nugget")
         if miner.gold_carried >= 2:
             miner.change_state(VisitBankAndDepositGold())
@@ -20,6 +21,7 @@ class EnterMineAndDigForNugget(State):
 
 class VisitBankAndDepositGold(State):
     def enter(self, miner: Miner) -> None:
+        miner.location_type = LocationType.bank
         miner.say("Goin' to the bank. Yes siree")
     
     def execute(self, miner: Miner) -> None:
@@ -38,13 +40,13 @@ class VisitBankAndDepositGold(State):
 
 class GoHomeAndSleepTilRested(State):
     def enter(self, miner: Miner) -> None:
+        miner.location_type = LocationType.shack
         miner.say("Walkin' home")
-        miner.fatigue = 4
     
     def execute(self, miner: Miner) -> None:
         miner.say("ZZZZ...")
         miner.fatigue -= 1
-        if miner.fatigue == 0:
+        if miner.fatigue <= 0:
             miner.change_state(EnterMineAndDigForNugget())
     
     def exit(self, miner: Miner) -> None:
@@ -52,6 +54,7 @@ class GoHomeAndSleepTilRested(State):
 
 class QuenchThirst(State):
     def enter(self, miner: Miner) -> None:
+        miner.location_type = LocationType.saloon
         miner.say("Boy, ah sure is thusty! Walkin' to the saloon")
     
     def execute(self, miner: Miner) -> None:
