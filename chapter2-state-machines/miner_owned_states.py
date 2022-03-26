@@ -12,11 +12,11 @@ class EnterMineAndDigForNugget(State):
         miner.say("Pickin' up a nugget")
         if miner.gold_carried >= 2:
             miner.change_state(VisitBankAndDepositGold())
-        elif miner.thirst >= 5:
+        elif miner.thirst >= 4:
             miner.change_state(QuenchThirst())
 
     def exit(self, miner: Miner) -> None:
-        miner.say("Ah'm leavin' the gold mine with mah pckets full o' sweet gold")
+        miner.say("Ah'm leavin' the gold mine with mah pockets full o' sweet gold")
 
 class VisitBankAndDepositGold(State):
     def enter(self, miner: Miner) -> None:
@@ -29,6 +29,8 @@ class VisitBankAndDepositGold(State):
         if miner.money_in_bank >= 5:
             miner.say("Woohoo! Rich enough for now. Back home to mah li'l lady")
             miner.change_state(GoHomeAndSleepTilRested())
+        else:
+            miner.change_state(EnterMineAndDigForNugget())
         
     
     def exit(self, miner: Miner) -> None:
@@ -53,7 +55,8 @@ class QuenchThirst(State):
         miner.say("Boy, ah sure is thusty! Walkin' to the saloon")
     
     def execute(self, miner: Miner) -> None:
-        self.thirst = 0
+        miner.thirst = 0
+        miner.gold_carried -= 1
         miner.say("That's mighty fine sippin' liquor")
         miner.change_state(EnterMineAndDigForNugget())
     
