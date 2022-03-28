@@ -9,7 +9,7 @@ class EnterMineAndDigForNugget(State):
     
     def execute(self, miner: Miner) -> None:
         miner.gold_carried += 1
-        miner.fatigure += 1
+        miner.fatigue += 1
         miner.say("Pickin' up a nugget")
         if miner.gold_carried >= 2:
             miner.change_state(VisitBankAndDepositGold())
